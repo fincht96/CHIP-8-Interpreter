@@ -1,5 +1,5 @@
-#include "memory.h"
-#include "input.h"
+#include "../inc/memory.h"
+#include "../inc/input.h"
 
 Memory::Memory(const uint16_t offset)
 {
