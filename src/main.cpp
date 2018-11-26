@@ -1,11 +1,11 @@
 
 
 #include <iostream>
-#include "chip8.h"
-#include "memory.h"
-#include "graphics.h"
-#include "timer.h"
-#include "input.h"
+#include "../inc/chip8.h"
+#include "../inc/memory.h"
+#include "../inc/graphics.h"
+#include "../inc/timer.h"
+#include "../inc/input.h"
 
 
 #include "SFML/Graphics.hpp"
