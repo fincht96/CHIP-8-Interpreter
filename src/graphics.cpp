@@ -1,4 +1,4 @@
-#include "graphics.h"
+#include "../inc/graphics.h"
 
 
 
