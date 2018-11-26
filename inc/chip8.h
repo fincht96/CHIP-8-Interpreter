@@ -1,4 +1,22 @@
 
+//$Header$
+//---------------------------------------------------------------------------------------------------------
+//												Chip8
+//---------------------------------------------------------------------------------------------------------
+//	Chip8 Interpreter
+//
+// Author: Thomas Finch
+// Created: 22/11/2018
+//
+/**
+*	Provides the instruction fetch, decode and execution capabilties of the system.
+*
+*	@note: n/a
+*
+*/
+//---------------------------------------------------------------------------------------------------------
+
+
 #ifndef CHIP8_H
 #define CHIP8_H
 
@@ -23,15 +41,15 @@ private:
 
 
 	Memory* const m_pMem;						// points to memory object
-	Timer* const m_pDelayTimer;			// points to delay timer
-	Timer* const m_pSoundTimer;			// points to sound timer
-	Graphics* const m_pGpu;					// points to graphics object
+	Timer* const m_pDelayTimer;					// points to delay timer
+	Timer* const m_pSoundTimer;					// points to sound timer
+	Graphics* const m_pGpu;						// points to graphics object
 
 	uint16_t m_stack[48];						// up to 48 levels deep, used to store addresses
-	uint8_t m_v[NUM_REGS] = { 0 };	// 16 8-bit registers
-	uint16_t m_i;										// address register
-	uint16_t m_pc;									// program counter
-	uint8_t m_sp;										// stack pointer
+	uint8_t m_v[NUM_REGS] = { 0 };				// 16 8-bit registers
+	uint16_t m_i;								// address register
+	uint16_t m_pc;								// program counter
+	uint8_t m_sp;								// stack pointer
 
 	struct InstrData
 	{
@@ -45,7 +63,7 @@ private:
 	struct Instr
 	{
 		void(Chip8::*CodeExec)(InstrData) = NULL;		// points to exec code
-		InstrData data;							// holds data regarding specific instruction
+		InstrData data;									// holds data regarding specific instruction
 	};
 
 
