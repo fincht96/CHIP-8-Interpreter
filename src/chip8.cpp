@@ -1,4 +1,4 @@
-#include "chip8.h"
+#include "../inc/chip8.h"
 
 
 Chip8::Chip8(Memory* const mem)
