@@ -1,4 +1,4 @@
-#include "../include/chip8.h"
+#include "chip8.h"
 
 
 Chip8::Chip8(Memory* const mem)
@@ -133,21 +133,21 @@ void Chip8::update()
 	// fetch, gets the instruction from memory and post increments pc
 	opcode = (uint8_t)(*m_pMem)[m_pc];
 	opcode <<= 8;
-	opcode |= (uint8_t)(*m_pMem)[m_pc+1];
+	opcode |= (uint8_t)(*m_pMem)[m_pc + 1];
 
 
 	// decode, returns an instruction packet, containing pointer to instrucion and relevant data
 	instr = decode(opcode);
 
 
-	 printf ("Executing %04X at %04X , I:%02X SP:%02X, IC:%02X\n", opcode, m_pc, m_i, m_sp, instruction_count);
+	printf("Executing %04X at %04X , I:%02X SP:%02X, IC:%02X\n", opcode, m_pc, m_i, m_sp, instruction_count);
 
-	 for(unsigned x = 0; x < 16; x ++)
-	 {
-	  	printf ("v[%d]:%02X, ", x, m_v[x]);
-	 }
+	for (unsigned x = 0; x < 16; x++)
+	{
+		printf("v[%d]:%02X, ", x, m_v[x]);
+	}
 
-	 printf ("\n\n");
+	printf("\n\n");
 
 
 	// execute, executes insction packet
@@ -166,67 +166,67 @@ Chip8::Instr Chip8::decode(uint16_t opcode)
 	{
 
 	case 0x0000:
-		switch(opcode)
+		switch (opcode)
 		{
 			// 00E0 - CLS
-			case 0x00E0:
-				temp.CodeExec = &Chip8::op_CLS;
-				break;
+		case 0x00E0:
+			temp.CodeExec = &Chip8::op_CLS;
+			break;
 
 			// 00EE - RET
-			case 0x00EE:
-				temp.CodeExec = &Chip8::op_RET;
-				break;
+		case 0x00EE:
+			temp.CodeExec = &Chip8::op_RET;
+			break;
 
-			default:
-				printf ("Opcode:  %04X\n", opcode);
-				std::cin.get();
-				break;
+		default:
+			printf("Opcode:  %04X\n", opcode);
+			std::cin.get();
+			break;
 		}
 		break;
 
 
-	// 1nnn - JP addr
+		// 1nnn - JP addr
 	case 0x1000:
 		temp.CodeExec = &Chip8::op_JP;
 		temp.data.addr = (opcode & 0x0FFF);
 		break;
 
-	// 2nnn - CALL addr
+		// 2nnn - CALL addr
 	case 0x2000:
 		temp.CodeExec = &Chip8::op_CALL;
 		temp.data.addr = (opcode & 0x0FFF);
 		break;
 
-	// 3xkk - SE Vx, byte
+		// 3xkk - SE Vx, byte
 	case 0x3000:
 		temp.CodeExec = &Chip8::op_SEXD;
 		temp.data.x_reg = (opcode & 0x0F00) >> 8;
 		temp.data.value = (opcode & 0x00FF);
 		break;
 
-	// 4xkk - SNE Vx, byte
+		// 4xkk - SNE Vx, byte
 	case 0x4000:
 		temp.CodeExec = &Chip8::op_SNEXD;
 		temp.data.x_reg = (opcode & 0x0F00) >> 8;
 		temp.data.value = (opcode & 0x00FF);
 		break;
 
-	// 5xy0 - SE Vx, Vy
+		// 5xy0 - SE Vx, Vy
 	case 0x5000:
 		temp.CodeExec = &Chip8::op_SEXY;
 		temp.data.x_reg = (opcode & 0x0F00) >> 8;
 		temp.data.y_reg = (opcode & 0x00F0) >> 4;
 		break;
 
-	// 6xkk - LD Vx, byte
+		// 6xkk - LD Vx, byte
 	case 0x6000:
 		temp.CodeExec = &Chip8::op_LD;
 		temp.data.x_reg = (opcode & 0x0F00) >> 8;
 		temp.data.value = (opcode & 0x00FF);
 		break;
 
-	// 7xkk - ADD Vx, byte
+		// 7xkk - ADD Vx, byte
 	case 0x7000:
 		temp.CodeExec = &Chip8::op_ADD;
 		temp.data.x_reg = (opcode & 0x0F00) >> 8;
@@ -240,86 +240,86 @@ Chip8::Instr Chip8::decode(uint16_t opcode)
 
 		switch (opcode & 0x000F)
 		{
-		// 8xy0 - LD Vx, Vy
+			// 8xy0 - LD Vx, Vy
 		case 0x0000:
 			temp.CodeExec = &Chip8::op_LDXY;
 			break;
 
-		// 8xy1 - OR Vx, Vy
+			// 8xy1 - OR Vx, Vy
 		case 0x0001:
 			temp.CodeExec = &Chip8::op_OR;
 			break;
 
-		// 8xy2 - AND Vx, Vy
+			// 8xy2 - AND Vx, Vy
 		case 0x0002:
 			temp.CodeExec = &Chip8::op_AND;
 			break;
 
-		// 8xy3 - XOR Vx, Vy
+			// 8xy3 - XOR Vx, Vy
 		case 0x0003:
 			temp.CodeExec = &Chip8::op_XOR;
 			break;
 
-		// 8xy4 - ADD Vx, Vy
+			// 8xy4 - ADD Vx, Vy
 		case 0x0004:
 			temp.CodeExec = &Chip8::op_ADDXY;
 			break;
 
-		// 8xy5 - SUB Vx, Vy
+			// 8xy5 - SUB Vx, Vy
 		case 0x0005:
 			temp.CodeExec = &Chip8::op_SUB;
 			break;
 
-		// 8xy6 - SHR Vx {, Vy}
+			// 8xy6 - SHR Vx {, Vy}
 		case 0x0006:
 			temp.CodeExec = &Chip8::op_SHR;
 			break;
 
-		// 8xy7 - SUBN Vx, Vy
+			// 8xy7 - SUBN Vx, Vy
 		case 0x0007:
 			temp.CodeExec = &Chip8::op_SUBN;
 			break;
 
-		// 8xyE - SHL Vx {, Vy}
+			// 8xyE - SHL Vx {, Vy}
 		case 0x000E:
 			temp.CodeExec = &Chip8::op_SHL;
 			break;
 
 		default:
-			printf ("Opcode:  %04X\n", opcode);
+			printf("Opcode:  %04X\n", opcode);
 			std::cin.get();
 			break;
 
 		}
 		break;
 
-	// 9xy0 - SNE Vx, Vy
+		// 9xy0 - SNE Vx, Vy
 	case 0x9000:
 		temp.CodeExec = &Chip8::op_SNEXY;
 		temp.data.x_reg = (opcode & 0x0F00) >> 8;
 		temp.data.y_reg = (opcode & 0x00F0) >> 4;
 		break;
 
-  // Annn - LD I, addr
+		// Annn - LD I, addr
 	case 0xA000:
 		temp.CodeExec = &Chip8::op_LDI;
 		temp.data.addr = (opcode & 0x0FFF);
 		break;
 
-	// Bnnn - JP V0, addr
+		// Bnnn - JP V0, addr
 	case 0xB000:
 		temp.CodeExec = &Chip8::op_JPOFF;
 		temp.data.addr = (opcode & 0x0FFF);
 		break;
 
-	// Cxkk - RND Vx, byte
+		// Cxkk - RND Vx, byte
 	case 0xC000:
 		temp.CodeExec = &Chip8::op_RND;
 		temp.data.x_reg = (opcode & 0x0F00) >> 8;
 		temp.data.value = (opcode & 0x00FF);
 		break;
 
-	// Dxyn - DRW Vx, Vy, nibble
+		// Dxyn - DRW Vx, Vy, nibble
 	case 0xD000:
 		temp.CodeExec = &Chip8::op_DRW;
 		temp.data.x_reg = (opcode & 0x0F00) >> 8;
@@ -337,13 +337,13 @@ Chip8::Instr Chip8::decode(uint16_t opcode)
 			temp.CodeExec = &Chip8::op_SKP;
 			break;
 
-		// ExA1 - SKNP Vx
+			// ExA1 - SKNP Vx
 		case 0x00A1:
 			temp.CodeExec = &Chip8::op_SKNP;
 			break;
 
 		default:
-			printf ("Opcode:  %04X\n", opcode);
+			printf("Opcode:  %04X\n", opcode);
 			std::cin.get();
 		}
 
@@ -353,53 +353,53 @@ Chip8::Instr Chip8::decode(uint16_t opcode)
 		temp.data.x_reg = (opcode & 0x0F00) >> 8;
 		switch (opcode & 0x00FF)
 		{
-		// Fx07 - LD Vx, DT
+			// Fx07 - LD Vx, DT
 		case 0x0007:
 			temp.CodeExec = &Chip8::op_LDXDT;
 			break;
 
-		// Fx0A - LD Vx, K
+			// Fx0A - LD Vx, K
 		case 0x000A:
 			temp.CodeExec = &Chip8::op_LDXK;
 			break;
 
-		// Fx15 - LD DT, Vx
+			// Fx15 - LD DT, Vx
 		case 0x0015:
 			temp.CodeExec = &Chip8::op_LDDTX;
 			break;
 
-		// Fx18 - LD ST, Vx
+			// Fx18 - LD ST, Vx
 		case 0x0018:
 			temp.CodeExec = &Chip8::op_LDSTX;
 			break;
 
-		// Fx1E - ADD I, Vx
+			// Fx1E - ADD I, Vx
 		case 0x001E:
 			temp.CodeExec = &Chip8::op_ADIX;
 			break;
 
-		// Fx29 - LD F, Vx
+			// Fx29 - LD F, Vx
 		case 0x0029:
 			temp.CodeExec = &Chip8::op_LDFX;
 			break;
 
-		// Fx33 - LD B, Vx
+			// Fx33 - LD B, Vx
 		case 0x0033:
 			temp.CodeExec = &Chip8::op_LDBX;
 			break;
 
-		// Fx55 - LD [I], Vx
+			// Fx55 - LD [I], Vx
 		case 0x0055:
 			temp.CodeExec = &Chip8::op_LDIX;
 			break;
 
-		// Fx65 - LD Vx, [I]
+			// Fx65 - LD Vx, [I]
 		case 0x0065:
 			temp.CodeExec = &Chip8::op_LDXI;
 			break;
 
 		default:
-			printf ("Opcode:  %04X\n", opcode);
+			printf("Opcode:  %04X\n", opcode);
 			std::cin.get();
 			break;
 
@@ -407,7 +407,7 @@ Chip8::Instr Chip8::decode(uint16_t opcode)
 		break;
 
 	default:
-		printf ("Opcode:  %04X\n", opcode);
+		printf("Opcode:  %04X\n", opcode);
 		std::cin.get();
 		break;
 	}
@@ -548,7 +548,7 @@ void Chip8::op_ADDXY(InstrData data)
 
 	m_v[0xF] = 0;
 
-	if(m_v[data.y_reg] > (255 - m_v[data.x_reg]))
+	if (m_v[data.y_reg] > (255 - m_v[data.x_reg]))
 		m_v[0xF] = 1;
 
 
@@ -588,7 +588,7 @@ void Chip8::op_SUBN(InstrData data)
 	m_pc += 2;
 	m_v[0x0F] = 0;
 
-	if(m_v[data.y_reg] > m_v[data.x_reg])
+	if (m_v[data.y_reg] > m_v[data.x_reg])
 		m_v[0x0F] = 1;		// sets flag register
 
 	m_v[data.x_reg] = m_v[data.y_reg] - m_v[data.x_reg];
@@ -767,8 +767,8 @@ void Chip8::op_LDBX(InstrData data)
 
 
 	(*m_pMem)[m_i] = num_hundreds;
-	(*m_pMem)[m_i+1] = num_tens;
-	(*m_pMem)[m_i+2] = num_ones;
+	(*m_pMem)[m_i + 1] = num_tens;
+	(*m_pMem)[m_i + 2] = num_ones;
 }
 
 
