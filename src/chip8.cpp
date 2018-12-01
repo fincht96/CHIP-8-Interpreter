@@ -13,7 +13,7 @@ Chip8::Chip8(Memory* const mem, Graphics* const gpu, Timer* const delay_timer, T
 {
 	m_pc = RAM_STRT_ADDR;
 	m_sp = 0;
-	m_i = 0;											// sp points to bottom of stack
+	m_i = 0;							// sp points to bottom of stack
 	std::srand(static_cast<unsigned int>(std::time(nullptr)));	// set initial random number generation seed value to system clock time
 
 
@@ -240,47 +240,47 @@ Chip8::Instr Chip8::decode(uint16_t opcode)
 
 		switch (opcode & 0x000F)
 		{
-			// 8xy0 - LD Vx, Vy
+		// 8xy0 - LD Vx, Vy
 		case 0x0000:
 			temp.CodeExec = &Chip8::op_LDXY;
 			break;
 
-			// 8xy1 - OR Vx, Vy
+		// 8xy1 - OR Vx, Vy
 		case 0x0001:
 			temp.CodeExec = &Chip8::op_OR;
 			break;
 
-			// 8xy2 - AND Vx, Vy
+		// 8xy2 - AND Vx, Vy
 		case 0x0002:
 			temp.CodeExec = &Chip8::op_AND;
 			break;
 
-			// 8xy3 - XOR Vx, Vy
+		// 8xy3 - XOR Vx, Vy
 		case 0x0003:
 			temp.CodeExec = &Chip8::op_XOR;
 			break;
 
-			// 8xy4 - ADD Vx, Vy
+		// 8xy4 - ADD Vx, Vy
 		case 0x0004:
 			temp.CodeExec = &Chip8::op_ADDXY;
 			break;
 
-			// 8xy5 - SUB Vx, Vy
+		// 8xy5 - SUB Vx, Vy
 		case 0x0005:
 			temp.CodeExec = &Chip8::op_SUB;
 			break;
 
-			// 8xy6 - SHR Vx {, Vy}
+		// 8xy6 - SHR Vx {, Vy}
 		case 0x0006:
 			temp.CodeExec = &Chip8::op_SHR;
 			break;
 
-			// 8xy7 - SUBN Vx, Vy
+		// 8xy7 - SUBN Vx, Vy
 		case 0x0007:
 			temp.CodeExec = &Chip8::op_SUBN;
 			break;
 
-			// 8xyE - SHL Vx {, Vy}
+		// 8xyE - SHL Vx {, Vy}
 		case 0x000E:
 			temp.CodeExec = &Chip8::op_SHL;
 			break;
@@ -293,33 +293,33 @@ Chip8::Instr Chip8::decode(uint16_t opcode)
 		}
 		break;
 
-		// 9xy0 - SNE Vx, Vy
+	// 9xy0 - SNE Vx, Vy
 	case 0x9000:
 		temp.CodeExec = &Chip8::op_SNEXY;
 		temp.data.x_reg = (opcode & 0x0F00) >> 8;
 		temp.data.y_reg = (opcode & 0x00F0) >> 4;
 		break;
 
-		// Annn - LD I, addr
+	// Annn - LD I, addr
 	case 0xA000:
 		temp.CodeExec = &Chip8::op_LDI;
 		temp.data.addr = (opcode & 0x0FFF);
 		break;
 
-		// Bnnn - JP V0, addr
+	// Bnnn - JP V0, addr
 	case 0xB000:
 		temp.CodeExec = &Chip8::op_JPOFF;
 		temp.data.addr = (opcode & 0x0FFF);
 		break;
 
-		// Cxkk - RND Vx, byte
+	// Cxkk - RND Vx, byte
 	case 0xC000:
 		temp.CodeExec = &Chip8::op_RND;
 		temp.data.x_reg = (opcode & 0x0F00) >> 8;
 		temp.data.value = (opcode & 0x00FF);
 		break;
 
-		// Dxyn - DRW Vx, Vy, nibble
+	// Dxyn - DRW Vx, Vy, nibble
 	case 0xD000:
 		temp.CodeExec = &Chip8::op_DRW;
 		temp.data.x_reg = (opcode & 0x0F00) >> 8;
@@ -332,12 +332,12 @@ Chip8::Instr Chip8::decode(uint16_t opcode)
 		temp.data.x_reg = (opcode & 0x0F00) >> 8;
 		switch (opcode & 0x00FF)
 		{
-			// Ex9E - SKP Vx
+		// Ex9E - SKP Vx
 		case 0x009E:
 			temp.CodeExec = &Chip8::op_SKP;
 			break;
 
-			// ExA1 - SKNP Vx
+		// ExA1 - SKNP Vx
 		case 0x00A1:
 			temp.CodeExec = &Chip8::op_SKNP;
 			break;
@@ -353,47 +353,47 @@ Chip8::Instr Chip8::decode(uint16_t opcode)
 		temp.data.x_reg = (opcode & 0x0F00) >> 8;
 		switch (opcode & 0x00FF)
 		{
-			// Fx07 - LD Vx, DT
+		// Fx07 - LD Vx, DT
 		case 0x0007:
 			temp.CodeExec = &Chip8::op_LDXDT;
 			break;
 
-			// Fx0A - LD Vx, K
+		// Fx0A - LD Vx, K
 		case 0x000A:
 			temp.CodeExec = &Chip8::op_LDXK;
 			break;
 
-			// Fx15 - LD DT, Vx
+		// Fx15 - LD DT, Vx
 		case 0x0015:
 			temp.CodeExec = &Chip8::op_LDDTX;
 			break;
 
-			// Fx18 - LD ST, Vx
+		// Fx18 - LD ST, Vx
 		case 0x0018:
 			temp.CodeExec = &Chip8::op_LDSTX;
 			break;
 
-			// Fx1E - ADD I, Vx
+		// Fx1E - ADD I, Vx
 		case 0x001E:
 			temp.CodeExec = &Chip8::op_ADIX;
 			break;
 
-			// Fx29 - LD F, Vx
+		// Fx29 - LD F, Vx
 		case 0x0029:
 			temp.CodeExec = &Chip8::op_LDFX;
 			break;
 
-			// Fx33 - LD B, Vx
+		// Fx33 - LD B, Vx
 		case 0x0033:
 			temp.CodeExec = &Chip8::op_LDBX;
 			break;
 
-			// Fx55 - LD [I], Vx
+		// Fx55 - LD [I], Vx
 		case 0x0055:
 			temp.CodeExec = &Chip8::op_LDIX;
 			break;
 
-			// Fx65 - LD Vx, [I]
+		// Fx65 - LD Vx, [I]
 		case 0x0065:
 			temp.CodeExec = &Chip8::op_LDXI;
 			break;
@@ -429,7 +429,7 @@ void Chip8::exec(Instr instr)
 }
 
 
-// // 00E0 - CLS (Clear the display)
+// 00E0 - CLS (Clear the display)
 void Chip8::op_CLS(InstrData)
 {
 	m_pc += 2;
