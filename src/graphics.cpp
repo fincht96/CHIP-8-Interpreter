@@ -19,8 +19,8 @@ Graphics::Graphics(Memory* mem, sf::RenderWindow* window)
 
 			// updates the location for each pixel vertice
 			// starts from bottom left vertice and goes clockwise
-			quad[0].position = sf::Vector2f((float)(x * 10),		(float)((y + 10) * 10));
-			quad[1].position = sf::Vector2f((float)(x * 10),		(float)(y * 10));
+			quad[0].position = sf::Vector2f((float)(x * 10), (float)((y + 10) * 10));
+			quad[1].position = sf::Vector2f((float)(x * 10), (float)(y * 10));
 			quad[2].position = sf::Vector2f((float)((x + 10) * 10), (float)(y * 10));
 			quad[3].position = sf::Vector2f((float)((x + 10) * 10), (float)((y + 10) * 10));
 
