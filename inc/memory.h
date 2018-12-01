@@ -29,9 +29,9 @@
 
 // Memory Map
 // ------------------------------------------------------------------
-// (0x0000 - 0x01FF)	holds char sprites				(512 bytes)
+// (0x0000 - 0x01FF)	holds char sprites			(512 bytes)
 // (0x0200 - 0x0FFF)	holds program work memory		(3584 bytes)
-//												TOTAL:	(4096 bytes)
+//							TOTAL:	(4096 bytes)
 
 
 class Memory
