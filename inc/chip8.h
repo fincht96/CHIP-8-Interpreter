@@ -46,10 +46,10 @@ private:
 	Graphics* const m_pGpu;						// points to graphics object
 
 	uint16_t m_stack[48];						// up to 48 levels deep, used to store addresses
-	uint8_t m_v[NUM_REGS] = { 0 };				// 16 8-bit registers
-	uint16_t m_i;								// address register
-	uint16_t m_pc;								// program counter
-	uint8_t m_sp;								// stack pointer
+	uint8_t m_v[NUM_REGS] = { 0 };					// 16 8-bit registers
+	uint16_t m_i;							// address register
+	uint16_t m_pc;							// program counter
+	uint8_t m_sp;							// stack pointer
 
 	struct InstrData
 	{
@@ -63,7 +63,7 @@ private:
 	struct Instr
 	{
 		void(Chip8::*CodeExec)(InstrData) = NULL;		// points to exec code
-		InstrData data;									// holds data regarding specific instruction
+		InstrData data;						// holds data regarding specific instruction
 	};
 
 
@@ -73,17 +73,17 @@ private:
 
 	// 34 exec operations
 
-	void op_CLS(InstrData);				// clears screen
-	void op_RET(InstrData);				// returns from sub routine
-	void op_JP(InstrData data);			// jumps to address NNNN
+	void op_CLS(InstrData);			// clears screen
+	void op_RET(InstrData);			// returns from sub routine
+	void op_JP(InstrData data);		// jumps to address NNNN
 	void op_CALL(InstrData data);		// calls subroutine at NNNN and stores return address
 	void op_SEXD(InstrData data);		// skips next instr if Vx == data
 	void op_SNEXD(InstrData data);		// skips next instr if Vx != data
 	void op_SEXY(InstrData data);		// skips next instr if Vx == Vy
-	void op_LD(InstrData data);			// loads data byte into Vx
+	void op_LD(InstrData data);		// loads data byte into Vx
 	void op_ADD(InstrData data);		// adds Vx and  data byte and stores in Vx
 	void op_LDXY(InstrData data);		// loads Vy into Vx			---
-	void op_OR(InstrData data);			// set Vx = Vx OR Vy
+	void op_OR(InstrData data);		// set Vx = Vx OR Vy
 	void op_AND(InstrData data);		// set Vx = Vx AND Vy
 	void op_XOR(InstrData data);		// set Vx = VX XOR Vy
 	void op_ADDXY(InstrData data);		// set Vx = Vx + Vy, VF = carry
